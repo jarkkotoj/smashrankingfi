@@ -11,11 +11,13 @@ python3 gui.py
 ```
 You are presented with three options. 
 
-Tournaments lets you inspect, modify (double-click a tournament), delete and add tournaments and their results. To add H2H set results to a tournament, the player needs to be added to the results list first. Tournament addition can be hastened by providing a suitable Challonge or smash.gg identifier.
+Tournaments lets you inspect, modify (double-click a tournament), delete and add tournaments and their results. To add H2H set results to a tournament, the player needs to be added to the results list first. 
+
+Tournament addition can be hastened by providing a suitable Challonge or smash.gg identifier. For the latter two, you need an API key for each which are to be placed in challongekey.dat and smashggkey.dat, respectively. For Challonge brackets, you need the tournament identifier (which should visible in the bracket link). For Smash.gg tournaments, you need the tournament slug/identifier (visible in the URL) and some key words (separated by spaces) that are (ALL) in the event name. By default, they are "melee" and "singles".
 
 Players lists all the players in the database and allows you to add and modify (but not skill values!) player data.
 
 H2H sets lets you inspect H2H set results during recent sets.
 
-##License
-This project has been licensed under the MIT license.
+## License
+This project has been licensed under the MIT license. See [LICENSE](LICENSE)
