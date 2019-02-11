@@ -16,3 +16,6 @@ Tournaments lets you inspect, modify (double-click a tournament), delete and add
 Players lists all the players in the database and allows you to add and modify (but not skill values!) player data.
 
 H2H sets lets you inspect H2H set results during recent sets.
+
+##License
+This project has been licensed under the MIT license.
