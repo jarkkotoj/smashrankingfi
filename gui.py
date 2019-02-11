@@ -166,6 +166,12 @@ def newtournamentauto(window0,alltours,tree) :
 
 #Add a tournament using smash.gg    
 def newtournamentgg(window00,window0,alltours,tree):
+    if (smashgg.apikey.strip()=='') :
+        smashgg.getapikey()
+        if (smashgg.apikey.strip()==''):
+            messagebox.showinfo(message='No API key found. Insert one into smashggkey.dat and try again!', title='No API key')
+            return 0
+        
     window00.destroy()
     window=Toplevel(window0)
     window.title('Retrieve data from smash.gg')
@@ -186,16 +192,24 @@ def newtournamentgg(window00,window0,alltours,tree):
 #Add a tournament using smash.gg API
 def ggtournament0(window00,window0,alltours,tree,tourkey,helpwords) :
     window00.destroy()
+    
+    if(helpwords.strip()==''):
+        hit=smashgg.retrievetournament(tourkey)
+        if (hit is None) :
+            messagebox.showinfo(message="No tournament found!",title="No tournament found!")
+            return 0
+    else :
+        helpwords = helpwords.strip().lower().split(' ')
+        hit=smashgg.retrievetournament(tourkey,helpwords)
+        if (hit is None) :
+            messagebox.showinfo(message="No tournament found!",title="No tournament found!")
+            return 0
+    (tournames,startdate,enddate,citys,reslist,setlist)=hit
+    
     window=Toplevel(window0)
     window.title('Retrieve data from smash.gg')
     frame=ttk.Frame(window,padding="3 3 3 3")
     frame.grid(row=0,column=0)
-    
-    if(helpwords.strip()==''):
-        (tournames,startdate,enddate,citys,reslist,setlist)=smashgg.retrievetournament(tourkey)
-    else :
-        helpwords = helpwords.strip().lower().split(' ')
-        (tournames,startdate,enddate,citys,reslist,setlist)=smashgg.retrievetournament(tourkey,helpwords)
     
     tourname = StringVar()
     startdates = StringVar()
@@ -278,6 +292,11 @@ def ggtournament2(window0,reslist,setlist,tour) :
 
 #Add a tournament using challonge.com API
 def newtournamentchallonge(window00,window0,alltours,tree):
+    if (challonge.apikey.strip()==""):
+        challonge.getapikey()
+        if (challonge.apikey.strip()=="") :
+            messagebox.showinfo(message='No challonge API-key found. Please insert one into challongekey.dat and try again.',title='No API key')
+            return 0
     window00.destroy()
     window=Toplevel(window0)
     window.title('Retrieve data from challonge.com')
@@ -295,20 +314,25 @@ def newtournamentchallonge(window00,window0,alltours,tree):
 #Modify data of Challonge tournament
 def challongetournament0(window00,window0,alltours,tree,urlstart,tourkeys) :
     window00.destroy()
-    window=Toplevel(window0)
-    window.title('Retrieve data from challonge.com')
-    frame=ttk.Frame(window,padding="3 3 3 3")
-    frame.grid(row=0,column=0)
-    
+
     tourname = StringVar()
     startdates = StringVar()
     enddates = StringVar()
     city = StringVar()
     city.set('City')
-    (tournames,startdate,enddate,reslist,setlist)=challonge.getrequest(tourkeys,'json',urlstart)
+    hits =challonge.getrequest(tourkeys,'json',urlstart)
+    if (hits is None) :
+        messagebox.showinfo(message='No tournament found or tournament is not complete?',title='Tournament error!')
+        return 0
+    (tournames,startdate,enddate,reslist,setlist)=hits
     tourname.set(tournames)
     startdates.set(startdate.strftime('%Y-%m-%d'))
     enddates.set(enddate.strftime('%Y-%m-%d'))
+
+    window=Toplevel(window0)
+    window.title('Retrieve data from challonge.com')
+    frame=ttk.Frame(window,padding="3 3 3 3")
+    frame.grid(row=0,column=0)
     
     ttk.Label(frame, text='Tournament name: ').grid(row=1,column=1)
     ttk.Label(frame, text='Started (YYYY-MM-DD): ').grid(row=2,column=1)
